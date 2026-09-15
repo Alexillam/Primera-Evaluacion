@@ -92,7 +92,68 @@ namespace Primera_Evaluacion
         }
         // EVENTO DEL BOTÓN AGREGAR.
 
-        private void btnAgregar_Click(object sender, EventArgs e)
+         
+
+        private void btnMostrar_Click(object sender, EventArgs e)
+        {
+
+            {
+                // Primero limpiamos las filas actuales.
+                dgvActividades.Rows.Clear();
+
+                // Recuperamos todas las actividades
+                // desde la capa Negocio.
+                var actividades = negocio.ObtenerActividades();
+
+                // RECORREMOS LA LISTA
+                // utilizando un ciclo foreach.
+                foreach (Actividad actividad in actividades)
+                {
+                    // Variable para guardar el tipo.
+                    string tipo = "";
+
+                    // Variable para guardar la característica.
+                    string caracteristica = "";
+
+                    // IDENTIFICAMOS EL TIPO DE OBJETO.
+                    if (actividad is Cine cine)
+                    {
+                        tipo = "Cine";
+
+                        // Obtenemos la sala.
+                        caracteristica = cine.Sala.ToString();
+                    }
+                    else if (actividad is Boliche boliche)
+                    {
+                        tipo = "Boliche";
+
+                        // Obtenemos el número de pistas.
+                        caracteristica =
+                            boliche.NumeroPistas.ToString();
+                    }
+                    else if (actividad is Videojuegos videojuegos)
+                    {
+                        tipo = "Videojuegos";
+
+                        // Obtenemos la consola.
+                        caracteristica =
+                            videojuegos.ConsolaPrincipal;
+                    }
+
+                    // AGREGAMOS LA INFORMACIÓN AL DATAGRIDVIEW.
+                    dgvActividades.Rows.Add(
+                        actividad.Id,
+                        actividad.Nombre,
+                        tipo,
+                        actividad.Costo,
+                        actividad.Responsable.Nombre,
+                        actividad.Responsable.Telefono,
+                        caracteristica);
+                }
+            }
+        }
+
+        private void btnAgregar_Click_1(object sender, EventArgs e)
         {
             // Primero limpiamos los errores anteriores.
             errorProvider1.Clear();
@@ -196,7 +257,7 @@ namespace Primera_Evaluacion
                 // Intentamos convertir la característica a número.
                 int sala;
 
-                if (!int.TryParse(lblCaracteristica.Text, out sala))
+                if (!int.TryParse(txtCaracteristica.Text, out sala))
                 {
                     MessageBox.Show(
                         "La sala debe ser un número.");
@@ -226,7 +287,7 @@ namespace Primera_Evaluacion
                 int pistas;
 
                 if (!int.TryParse(
-                   lblCaracteristica.Text,
+                   txtCaracteristica.Text,
                     out pistas))
                 {
                     MessageBox.Show(
@@ -255,7 +316,7 @@ namespace Primera_Evaluacion
 
                 // Asignamos la consola.
                 videojuegos.ConsolaPrincipal =
-                    lblCaracteristica.Text;
+                    txtCaracteristica.Text;
 
                 // Guardamos como Actividad.
                 actividad = videojuegos;
@@ -279,7 +340,7 @@ namespace Primera_Evaluacion
                 // Limpiamos los datos.
                 ucActividad1.Limpiar();
 
-                txtCaracteristica.clear();
+                txtCaracteristica.Clear();
             }
             catch (CostoInvalidoException ex)
             {
@@ -309,66 +370,8 @@ namespace Primera_Evaluacion
                     MessageBoxIcon.Error);
             }
         }
-
-        private void btnMostrar_Click(object sender, EventArgs e)
-        {
-
-            {
-                // Primero limpiamos las filas actuales.
-                dgvActividades.Rows.Clear();
-
-                // Recuperamos todas las actividades
-                // desde la capa Negocio.
-                var actividades = negocio.ObtenerActividades();
-
-                // RECORREMOS LA LISTA
-                // utilizando un ciclo foreach.
-                foreach (Actividad actividad in actividades)
-                {
-                    // Variable para guardar el tipo.
-                    string tipo = "";
-
-                    // Variable para guardar la característica.
-                    string caracteristica = "";
-
-                    // IDENTIFICAMOS EL TIPO DE OBJETO.
-                    if (actividad is Cine cine)
-                    {
-                        tipo = "Cine";
-
-                        // Obtenemos la sala.
-                        caracteristica = cine.Sala.ToString();
-                    }
-                    else if (actividad is Boliche boliche)
-                    {
-                        tipo = "Boliche";
-
-                        // Obtenemos el número de pistas.
-                        caracteristica =
-                            boliche.NumeroPistas.ToString();
-                    }
-                    else if (actividad is Videojuegos videojuegos)
-                    {
-                        tipo = "Videojuegos";
-
-                        // Obtenemos la consola.
-                        caracteristica =
-                            videojuegos.ConsolaPrincipal;
-                    }
-
-                    // AGREGAMOS LA INFORMACIÓN AL DATAGRIDVIEW.
-                    dgvActividades.Rows.Add(
-                        actividad.Id,
-                        actividad.Nombre,
-                        tipo,
-                        actividad.Costo,
-                        actividad.Responsable.Nombre,
-                        actividad.Responsable.Telefono,
-                        caracteristica);
-                }
-            }
-        }
     }
-}
+    }
+
 
 
