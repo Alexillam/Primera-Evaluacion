@@ -279,7 +279,7 @@ namespace Primera_Evaluacion
                 // Limpiamos los datos.
                 ucActividad1.Limpiar();
 
-                lblCaracteristica.Clear();
+                txtCaracteristica.clear();
             }
             catch (CostoInvalidoException ex)
             {
